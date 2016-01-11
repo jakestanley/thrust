@@ -3,7 +3,9 @@ using System.Collections;
 
 public class ShipController : MonoBehaviour {
 
+    public int cargo;
     public float fuel, battery, hull;
+    public GameObject cargoObject;
     public LowerBodyThrusters thrusters;
     public GameObject lateralThrusters, orePrefab;
     public LateralThruster northThruster, eastThruster, southThruster, westThruster;
@@ -13,6 +15,7 @@ public class ShipController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+        cargo = CARGO_NONE;
         random = new System.Random();
 
         thrusters       = GameObject.Find("LowerBody").GetComponent<LowerBodyThrusters>();
@@ -84,18 +87,24 @@ public class ShipController : MonoBehaviour {
         upwardForce.relativeForce = newForce;
         fuel -= consumedFuel;
 
-        if(Input.GetKey(KeyCode.T)){ // TODO change so it only drops its resource if it has one
-            GameObject obj = Instantiate(orePrefab) as GameObject;
-            Vector3 spawnPosition = transform.position;
-            spawnPosition.y = spawnPosition.y + SPAWN_OFFSET_Y;
-            obj.transform.position = spawnPosition;
-            float ySpeed = 0;
-            Debug.Log("ySpeed: " + ySpeed);
-            // Vector3 direction = new Vector3((random.Next(3) - 3), (random.Next(3) + 2), (random.Next(3) - 3));
-            Vector3 direction = new Vector3(0, -(random.Next(3) + 2), 0);
-            obj.GetComponent<Rigidbody>().AddForce((direction * 1), ForceMode.Impulse);          
-        }
+        if(cargo == CARGO_NONE){
+            if(Input.GetKey(KeyCode.T)){ // TODO change so it only drops its resource if it has one
+                cargo = CARGO_ORE;
+                cargoObject = Instantiate(orePrefab) as GameObject;
+            }
+        } 
 
+        if(cargo != CARGO_NONE){
+            Vector3 cargoPosition = transform.position;
+            cargoPosition.y = cargoPosition.y + SPAWN_OFFSET_Y;
+            cargoObject.transform.position = cargoPosition;
+
+            if(Input.GetKey(KeyCode.R)){
+                cargo = CARGO_NONE;
+                Vector3 direction = new Vector3(0, -(random.Next(3) + 2), 0);
+                cargoObject.GetComponent<Rigidbody>().AddForce((direction * 1), ForceMode.Impulse);
+            }
+        }
 	}
 
     public const float MAX_FUEL     = 100f;
@@ -107,5 +116,9 @@ public class ShipController : MonoBehaviour {
     public const float LATERAL_FORCE = 10f;
 
     public const float SPAWN_OFFSET_Y = -0.5f;
+
+    public const int CARGO_NONE = 0;
+    public const int CARGO_ORE = 1;
+    public const int CARGO_SALVAGE = 2; 
 
 }
