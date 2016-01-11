@@ -1,0 +1,188 @@
+fileFormatVersion: 2
+guid: 9cdf8afda72e38448a1a13a0e9bed20a
+timeCreated: 1452443079
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Claw
+    100002: Cube
+    100004: Cube.001
+    100006: Cube.002
+    100008: Drill
+    100010: Engines.000
+    100012: Engines.001
+    100014: Engines.002
+    100016: Engines.004
+    100018: Engines.007
+    100020: EquipmentDoorLeft
+    100022: EquipmentDoorRight
+    100024: //RootNode
+    100026: ClawAssembly
+    100028: Cockpit
+    100030: Door
+    100032: Legs
+    100034: LowerBody
+    100036: LowerDome
+    100038: RcsThruster1
+    100040: RcsThruster2
+    100042: RcsThruster3
+    100044: RcsThruster4
+    100046: UpperDome
+    400000: Claw
+    400002: Cube
+    400004: Cube.001
+    400006: Cube.002
+    400008: Drill
+    400010: Engines.000
+    400012: Engines.001
+    400014: Engines.002
+    400016: Engines.004
+    400018: Engines.007
+    400020: EquipmentDoorLeft
+    400022: EquipmentDoorRight
+    400024: //RootNode
+    400026: ClawAssembly
+    400028: Cockpit
+    400030: Door
+    400032: Legs
+    400034: LowerBody
+    400036: LowerDome
+    400038: RcsThruster1
+    400040: RcsThruster2
+    400042: RcsThruster3
+    400044: RcsThruster4
+    400046: UpperDome
+    2300000: Claw
+    2300002: Cube
+    2300004: Cube.001
+    2300006: Cube.002
+    2300008: Drill
+    2300010: Engines.000
+    2300012: Engines.001
+    2300014: Engines.002
+    2300016: Engines.004
+    2300018: Engines.007
+    2300020: EquipmentDoorLeft
+    2300022: EquipmentDoorRight
+    2300024: ClawAssembly
+    2300026: Cockpit
+    2300028: Door
+    2300030: Legs
+    2300032: LowerBody
+    2300034: LowerDome
+    2300036: RcsThruster1
+    2300038: RcsThruster2
+    2300040: RcsThruster3
+    2300042: RcsThruster4
+    2300044: UpperDome
+    3300000: Claw
+    3300002: Cube
+    3300004: Cube.001
+    3300006: Cube.002
+    3300008: Drill
+    3300010: Engines.000
+    3300012: Engines.001
+    3300014: Engines.002
+    3300016: Engines.004
+    3300018: Engines.007
+    3300020: EquipmentDoorLeft
+    3300022: EquipmentDoorRight
+    3300024: ClawAssembly
+    3300026: Cockpit
+    3300028: Door
+    3300030: Legs
+    3300032: LowerBody
+    3300034: LowerDome
+    3300036: RcsThruster1
+    3300038: RcsThruster2
+    3300040: RcsThruster3
+    3300042: RcsThruster4
+    3300044: UpperDome
+    4300000: Cube
+    4300002: Drill
+    4300004: EquipmentDoorLeft
+    4300006: Engines.000
+    4300008: Engines.002
+    4300010: Engines.004
+    4300012: Engines.001
+    4300014: Engines.007
+    4300016: EquipmentDoorRight
+    4300018: Claw
+    4300020: Cube.001
+    4300022: Cube.002
+    4300024: RcsThruster1
+    4300026: RcsThruster4
+    4300028: RcsThruster3
+    4300030: RcsThruster2
+    4300032: LowerDome
+    4300034: Cockpit
+    4300036: ClawAssembly
+    4300038: LowerBody
+    4300040: Door
+    4300042: UpperDome
+    4300044: Legs
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
