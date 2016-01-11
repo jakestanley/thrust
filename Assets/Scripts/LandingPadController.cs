@@ -27,8 +27,6 @@ public class LandingPadController : MonoBehaviour {
             float batteryRechargeRequired   = ShipController.MAX_BATTERY    - shipController.battery;
             float repairAmountRequired      = ShipController.MAX_HULL       - shipController.hull;
 
-            // TODO make sure you only recharge/refuel/repair/whatever the amount we have. don't charge 10 if we've only got 5 supplies
-
             float fuelAmountExpended            = 0;
             float batteryRechargeExpended       = 0;
             float repairSuppliesExpended        = 0;
