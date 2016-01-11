@@ -24,44 +24,53 @@ public class ShipController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
+
         Vector3 newForce = upwardForce.relativeForce;
 
         // zero forces to begin with
         newForce.x = 0;
         newForce.z = 0;
 
+        float consumedFuel = 0;
+        float lateralFuelConsumption = LATERAL_FORCE * CONSUMPTION_SCALE;
+        float upwardFuelConsumption = UPWARD_FORCE * CONSUMPTION_SCALE;
+
         // set forces if keys are down
-        if(Input.GetKey(KeyCode.W)){
-            newForce.x = newForce.x + LATERAL_FORCE;
+        if(Input.GetKey(KeyCode.W) && (fuel > lateralFuelConsumption)){
+            newForce.x = newForce.x + LATERAL_FORCE;                
+            consumedFuel += lateralFuelConsumption;
             southThruster.engage();
         } else {
             southThruster.disengage();
         }
 
-        if(Input.GetKey(KeyCode.S)){
+        if(Input.GetKey(KeyCode.S) && (fuel > lateralFuelConsumption)){
             newForce.x = newForce.x - LATERAL_FORCE;
+            consumedFuel += lateralFuelConsumption;
             northThruster.engage();
         } else {
             northThruster.disengage();
         }
 
-        if(Input.GetKey(KeyCode.A)){
+        if(Input.GetKey(KeyCode.A) && (fuel > lateralFuelConsumption)){
             newForce.z = newForce.z + LATERAL_FORCE;
+            consumedFuel += lateralFuelConsumption;
             eastThruster.engage();
         } else {
             eastThruster.disengage();
         }
 
-        if(Input.GetKey(KeyCode.D)){
+        if(Input.GetKey(KeyCode.D) && (fuel > lateralFuelConsumption)){
             newForce.z = newForce.z - LATERAL_FORCE;
+            consumedFuel += lateralFuelConsumption;
             westThruster.engage();
         } else {
             westThruster.disengage();
         }
 
-        if (Input.GetKey(KeyCode.Space)){
+        if (Input.GetKey(KeyCode.Space) && (fuel > upwardFuelConsumption)){
             newForce.y = UPWARD_FORCE;
+            consumedFuel += upwardFuelConsumption;
             thrusters.engage();
         } else {
             newForce.y = 0;
@@ -69,12 +78,14 @@ public class ShipController : MonoBehaviour {
         }
 
         upwardForce.relativeForce = newForce;
+        fuel -= consumedFuel;
 
 	}
 
-    public const float MAX_FUEL     = 100;
-    public const float MAX_BATTERY  = 100;
-    public const float MAX_HULL     = 100;
+    public const float MAX_FUEL     = 100f;
+    public const float MAX_BATTERY  = 100f;
+    public const float MAX_HULL     = 100f;
+    public const float CONSUMPTION_SCALE = 0.005f;
 
     public const float UPWARD_FORCE = 20f;
     public const float LATERAL_FORCE = 10f;
