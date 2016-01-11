@@ -5,9 +5,11 @@ public class ShipController : MonoBehaviour {
 
     public int cargo;
     public float fuel, battery, hull;
+    public Rigidbody shipRigidBody;
+    public GameObject orePrefab;
     public GameObject cargoObject;
+    public GameObject lateralThrusters;
     public LowerBodyThrusters thrusters;
-    public GameObject lateralThrusters, orePrefab;
     public LateralThruster northThruster, eastThruster, southThruster, westThruster;
     public ConstantForce upwardForce;
     public System.Random random;
@@ -87,10 +89,12 @@ public class ShipController : MonoBehaviour {
         upwardForce.relativeForce = newForce;
         fuel -= consumedFuel;
 
+        // TODO put this stuff in separate methods. void dropResource();
         if(cargo == CARGO_NONE){
-            if(Input.GetKey(KeyCode.T)){ // TODO change so it only drops its resource if it has one
+            if(Input.GetKey(KeyCode.T)){
                 cargo = CARGO_ORE;
                 cargoObject = Instantiate(orePrefab) as GameObject;
+                shipRigidBody.mass += cargoObject.GetComponent<Rigidbody>().mass;
             }
         } 
 
@@ -103,6 +107,7 @@ public class ShipController : MonoBehaviour {
                 cargo = CARGO_NONE;
                 Vector3 direction = new Vector3(0, -(random.Next(3) + 2), 0);
                 cargoObject.GetComponent<Rigidbody>().AddForce((direction * 1), ForceMode.Impulse);
+                shipRigidBody.mass -= cargoObject.GetComponent<Rigidbody>().mass;
             }
         }
 	}
