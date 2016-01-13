@@ -79,19 +79,17 @@ public class LandingPadController : MonoBehaviour {
 
     // collider
     void OnCollisionEnter(Collision collision){
-
         // TODO start the relevant animations
-
-        Debug.Log("Collision enter");
-        isAttached = true;
+		if (collision.collider == shipCollider) {
+			isAttached = true;
+		}
     }
 
     void OnCollisionExit(Collision collision){
-        Debug.Log("Collision leave");
-        // if(col == shipCollider){
-            // Debug.Log("Landed");
-        // }
-        isAttached = false;
+        // TODO stop the relevant animations
+		if (collision.collider == shipCollider) {
+			isAttached = false;
+		}
     }
 
     private const float REFUEL_RATE = 0.2f;
