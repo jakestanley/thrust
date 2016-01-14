@@ -8,18 +8,22 @@ public class ToolController : MonoBehaviour {
     public float toolOffsetY;
     public Transform drill, claw;
     public bool hasCargo; // TODO CONSIDER removing hasCargo
-    private bool drilling;
+    private bool drilling, particles;
     private TerrainController terrainController;
+    private ParticleSystem drillParticles;
 
 	// Use this for initialization
 	void Start () {
 
-        drilling = false;
-        toolOffsetY = 0;
-        toolSelected = TOOL_DRILL;
-        toolStatus = TOOL_RETRACTED;
+        drilling            = false;
+        particles           = false;
+        toolOffsetY         = 0;
+        toolSelected        = TOOL_DRILL;
+        toolStatus          = TOOL_RETRACTED;
 
-        terrainController = GameObject.Find("Terrain").GetComponent<TerrainController>();
+        terrainController   = GameObject.Find("Terrain").GetComponent<TerrainController>();
+        drillParticles      = GameObject.Find("DrillParticles").GetComponent<ParticleSystem>();
+        drillParticles.Stop();
 
     }
     
@@ -86,6 +90,17 @@ public class ToolController : MonoBehaviour {
             claw.localPosition = newToolPosition;
         }
 
+        if(toolOffsetY > TOOL_OFFSET_PARTICLES){
+            if(particles != true){
+                particles = true;
+                drillParticles.Play();
+            }
+        } else {
+            if(particles == true){
+                particles = false;
+                drillParticles.Stop();
+            }
+        }
 
         if(toolOffsetY < TOOL_OFFSET_MAX){
             drilling = false;
@@ -106,6 +121,7 @@ public class ToolController : MonoBehaviour {
     public const int TOOL_SWITCHING_TO_CLAW     = 13;
     public const int TOOL_SWITCHING_TO_DRILL    = 14;
     public const float TOOL_OFFSET_MAX          = 0.85f;
+    public const float TOOL_OFFSET_PARTICLES    = 0.75f;
     public const float TOOL_DEPLOY_SPEED        = 1.2f;
 
 }
