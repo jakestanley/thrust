@@ -24,9 +24,9 @@ public class ToolController : MonoBehaviour {
     void Update () {
 
         if(!toolLocked){
-            if(Input.GetKey(KeyCode.Alpha1)){
+			if(Input.GetKey(KeyCode.Alpha1) && toolSelected != TOOL_DRILL){
                 toolStatus = TOOL_SWITCHING_TO_DRILL;
-            } else if(Input.GetKey(KeyCode.Alpha2)){
+			} else if(Input.GetKey(KeyCode.Alpha2) && toolSelected != TOOL_CLAW){
                 toolStatus = TOOL_SWITCHING_TO_CLAW;
             }
 
