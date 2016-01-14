@@ -6,7 +6,6 @@ public class LandingPadController : MonoBehaviour {
     public float fuelSupplies, batterySupplies, repairSupplies;
 
     public Collider shipCollider;
-    public Collider landingPadCollider;
     public ShipController shipController;
     public bool isAttached;
 
@@ -75,7 +74,6 @@ public class LandingPadController : MonoBehaviour {
         // TODO restart the animations if the levels get back up
 
     }
-
 
     // collider
     void OnCollisionEnter(Collision collision){

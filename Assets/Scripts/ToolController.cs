@@ -3,9 +3,9 @@ using System.Collections;
 
 public class ToolController : MonoBehaviour {
 
-    public int tool;
+    public int toolSelected;
     public int toolStatus;
-    public bool toolLocked;
+    public bool toolLocked, hasCargo;
     public float toolOffsetY;
     public Transform drill, claw;
 
@@ -13,9 +13,10 @@ public class ToolController : MonoBehaviour {
 	void Start () {
 
         toolOffsetY = 0;
-        tool = TOOL_DRILL;
+        toolSelected = TOOL_DRILL;
         toolStatus = TOOL_RETRACTED;
         toolLocked = false;
+        hasCargo = false;
 
     }
     
@@ -54,13 +55,11 @@ public class ToolController : MonoBehaviour {
             toolOffsetY = 0;
             switch(toolStatus){
                 case TOOL_SWITCHING_TO_CLAW:
-                    Debug.Log("selecting claw");
-                    tool = TOOL_CLAW;
+                    toolSelected = TOOL_CLAW;
                     toolStatus = TOOL_RETRACTED;
                     break;
                 case TOOL_SWITCHING_TO_DRILL:
-                    Debug.Log("selecting drill");
-                    tool = TOOL_DRILL;
+                    toolSelected = TOOL_DRILL;
                     toolStatus = TOOL_RETRACTED;
                     break;
                 }
@@ -70,9 +69,9 @@ public class ToolController : MonoBehaviour {
 
         Vector3 newToolPosition = new Vector3(0, -toolOffsetY, 0);
 
-        if(TOOL_DRILL == tool){
+        if(TOOL_DRILL == toolSelected){
             drill.localPosition = newToolPosition;
-        } else if(TOOL_CLAW == tool){
+        } else if(TOOL_CLAW == toolSelected){
             claw.localPosition = newToolPosition;
         }
 

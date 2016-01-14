@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ShipController : MonoBehaviour {
 
+    public bool debug;
+
     public int cargo;
     public float fuel, battery, hull;
     public Rigidbody shipRigidBody;
@@ -13,6 +15,12 @@ public class ShipController : MonoBehaviour {
     public LateralThruster northThruster, eastThruster, southThruster, westThruster;
     public ConstantForce upwardForce;
     public System.Random random;
+
+    public ToolController toolController;
+    public GameObject clawObject;
+    public GameObject drillObject; // TODO get these
+
+    // TODO tidy up this messy ass shit
 
 	// Use this for initialization
 	void Start () {
@@ -87,7 +95,10 @@ public class ShipController : MonoBehaviour {
         }
 
         upwardForce.relativeForce = newForce;
-        fuel -= consumedFuel;
+
+        if(!debug){
+            fuel -= consumedFuel;
+        }
 
         // TODO put this stuff in separate methods. void dropResource();
         if(cargo == CARGO_NONE){
@@ -111,6 +122,8 @@ public class ShipController : MonoBehaviour {
             }
         }
 	}
+
+
 
     public const float MAX_FUEL     = 100f;
     public const float MAX_BATTERY  = 100f;
