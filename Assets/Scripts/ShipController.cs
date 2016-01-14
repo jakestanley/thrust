@@ -100,27 +100,6 @@ public class ShipController : MonoBehaviour {
             fuel -= consumedFuel;
         }
 
-        // TODO put this stuff in separate methods. void dropResource();
-        if(cargo == CARGO_NONE){
-            if(Input.GetKey(KeyCode.T)){
-                cargo = CARGO_ORE;
-                cargoObject = Instantiate(orePrefab) as GameObject;
-                shipRigidBody.mass += cargoObject.GetComponent<Rigidbody>().mass;
-            }
-        } 
-
-        if(cargo != CARGO_NONE){
-            Vector3 cargoPosition = transform.position;
-            cargoPosition.y = cargoPosition.y + SPAWN_OFFSET_Y;
-            cargoObject.transform.position = cargoPosition;
-
-            if(Input.GetKey(KeyCode.R)){
-                cargo = CARGO_NONE;
-                Vector3 direction = new Vector3(0, -(random.Next(3) + 2), 0);
-                cargoObject.GetComponent<Rigidbody>().AddForce((direction * 1), ForceMode.Impulse);
-                shipRigidBody.mass -= cargoObject.GetComponent<Rigidbody>().mass;
-            }
-        }
 	}
 
 
