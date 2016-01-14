@@ -5,14 +5,16 @@ public class ToolController : MonoBehaviour {
 
     public int toolSelected;
     public int toolStatus;
-    public bool toolLocked, hasCargo;
     public float toolOffsetY;
     public Transform drill, claw;
+    public bool hasCargo; // TODO CONSIDER removing hasCargo
+    private bool drilling;
     private TerrainController terrainController;
 
 	// Use this for initialization
 	void Start () {
 
+        drilling = false;
         toolOffsetY = 0;
         toolSelected = TOOL_DRILL;
         toolStatus = TOOL_RETRACTED;
@@ -84,7 +86,18 @@ public class ToolController : MonoBehaviour {
             claw.localPosition = newToolPosition;
         }
 
+
+        if(toolOffsetY < TOOL_OFFSET_MAX){
+            drilling = false;
+        } else {
+            drilling = true;
+        }
+
 	}
+
+    public bool isDrilling(){
+        return drilling;
+    }
 
     public const int TOOL_DRILL                 = 1;
     public const int TOOL_CLAW                  = 2;

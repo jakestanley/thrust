@@ -20,6 +20,12 @@ public class ShipController : MonoBehaviour {
     public GameObject clawObject;
     public GameObject drillObject; // TODO get these
 
+    private float baseLateralFuelConsumption;
+    private float baseUpwardFuelConsumption;
+    private float baseDrillBatteryConsumption;
+    private float baseLateralThrust;
+    private float baseUpwardThrust;
+
     public TerrainController terrainController;
 
     public ArrayList legs;
@@ -42,7 +48,12 @@ public class ShipController : MonoBehaviour {
         battery = MAX_BATTERY;
         hull    = MAX_HULL;
 
-        
+        baseLateralFuelConsumption  = LATERAL_THRUST_FUEL_USAGE * CONSUMPTION_SCALE;
+        baseUpwardFuelConsumption   = UPWARD_THRUST_FUEL_USAGE  * CONSUMPTION_SCALE;
+        baseDrillBatteryConsumption = DRILL_BATTERY_USAGE       * CONSUMPTION_SCALE;
+
+        baseLateralThrust           = LATERAL_THRUST            * THRUST_SCALE;
+        baseUpwardThrust            = UPWARD_THRUST             * THRUST_SCALE;
 
         legs = new ArrayList();
         foreach (Transform child in gameObject.transform.Find("Legs")) {
@@ -65,13 +76,19 @@ public class ShipController : MonoBehaviour {
         newRelativeForce.x = 0;
         newRelativeForce.z = 0;
 
-        float consumedFuel = 0;
-        float lateralFuelConsumption = LATERAL_FORCE * CONSUMPTION_SCALE;
-        float upwardFuelConsumption = UPWARD_FORCE * CONSUMPTION_SCALE;
+        float consumedFuel      = 0;
+        float consumedBattery   = 0;
+
+        // calculate consumptions
+        float lateralThrust             = (Time.deltaTime * baseLateralThrust);
+        float lateralFuelConsumption    = (Time.deltaTime * baseLateralFuelConsumption);
+        float upwardThrust              = (Time.deltaTime * baseUpwardThrust);
+        float upwardFuelConsumption     = (Time.deltaTime * baseUpwardFuelConsumption);
+        float batteryDrillConsumption   = (Time.deltaTime * baseDrillBatteryConsumption);
 
         // set forces if keys are down
         if(Input.GetKey(KeyCode.W) && (fuel > lateralFuelConsumption)){
-            newRelativeForce.x = newRelativeForce.x + LATERAL_FORCE;                
+            newRelativeForce.x = newRelativeForce.x + lateralThrust;                
             consumedFuel += lateralFuelConsumption;
             southThruster.engage();
         } else {
@@ -79,7 +96,7 @@ public class ShipController : MonoBehaviour {
         }
 
         if(Input.GetKey(KeyCode.S) && (fuel > lateralFuelConsumption)){
-            newRelativeForce.x = newRelativeForce.x - LATERAL_FORCE;
+            newRelativeForce.x = newRelativeForce.x - lateralThrust;
             consumedFuel += lateralFuelConsumption;
             northThruster.engage();
         } else {
@@ -87,7 +104,7 @@ public class ShipController : MonoBehaviour {
         }
 
         if(Input.GetKey(KeyCode.A) && (fuel > lateralFuelConsumption)){
-            newRelativeForce.z = newRelativeForce.z + LATERAL_FORCE;
+            newRelativeForce.z = newRelativeForce.z + lateralThrust;
             consumedFuel += lateralFuelConsumption;
             eastThruster.engage();
         } else {
@@ -95,7 +112,7 @@ public class ShipController : MonoBehaviour {
         }
 
         if(Input.GetKey(KeyCode.D) && (fuel > lateralFuelConsumption)){
-            newRelativeForce.z = newRelativeForce.z - LATERAL_FORCE;
+            newRelativeForce.z = newRelativeForce.z - lateralThrust;
             consumedFuel += lateralFuelConsumption;
             westThruster.engage();
         } else {
@@ -103,7 +120,7 @@ public class ShipController : MonoBehaviour {
         }
 
         if (Input.GetKey(KeyCode.Space) && (fuel > upwardFuelConsumption)){
-            newGlobalForce.y = UPWARD_FORCE;
+            newGlobalForce.y = upwardThrust;
             consumedFuel += upwardFuelConsumption;
             thrusters.engage();
         } else {
@@ -111,35 +128,47 @@ public class ShipController : MonoBehaviour {
             thrusters.disengage();
         }
 
+        // get consumed battery
+        if(toolController.isDrilling()){
+            consumedBattery += batteryDrillConsumption;
+        }
+
+        // DON'T USE DELTA TIME BELOW THIS POINT
         upwardForce.relativeForce = newRelativeForce;
         upwardForce.force = newGlobalForce;
 
-        if(!debug){
+        // apply resource expenditures
+        if(debug){
             fuel -= consumedFuel;
+            battery -= consumedBattery;
         }
 
 	}
 
     public bool hasLanded(){
-        int contacts = 0;
-        foreach(GameObject leg in legs){
-            // if(leg.collider.)
-        }
-        return (contacts > 2);
+        return terrainController.hasLanded();
     }
 
     public const float MAX_FUEL     = 100f;
     public const float MAX_BATTERY  = 100f;
     public const float MAX_HULL     = 100f;
-    public const float CONSUMPTION_SCALE = 0.005f;
 
-    public const float UPWARD_FORCE = 20f;
-    public const float LATERAL_FORCE = 10f;
+    public const float THRUST_SCALE     = 10f;
+    public const float UPWARD_THRUST    = 100f;
+    public const float LATERAL_THRUST   = 50f;
+
+    public const float CONSUMPTION_SCALE = 0.05f;
+    public const float UPWARD_THRUST_FUEL_USAGE     = 100f; // TODO decouple thrust force amount and consumption rate
+    public const float LATERAL_THRUST_FUEL_USAGE    = 50f;
+    public const float DRILL_BATTERY_USAGE          = 20f;
 
     public const float SPAWN_OFFSET_Y = -0.5f;
 
-    public const int CARGO_NONE = 0;
-    public const int CARGO_ORE = 1;
-    public const int CARGO_SALVAGE = 2; 
+    public const int CARGO_NONE         = 0;
+    public const int CARGO_ORE          = 1;
+    public const int CARGO_SALVAGE      = 2;
+    public const int CARGO_METAL        = 3;
+    public const int CARGO_CRUDE_OIL    = 4;
+    public const int CARGO_FUEL         = 5;
 
 }
