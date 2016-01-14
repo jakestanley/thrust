@@ -8,6 +8,7 @@ public class ToolController : MonoBehaviour {
     public bool toolLocked, hasCargo;
     public float toolOffsetY;
     public Transform drill, claw;
+    private TerrainController terrainController;
 
 	// Use this for initialization
 	void Start () {
@@ -15,30 +16,38 @@ public class ToolController : MonoBehaviour {
         toolOffsetY = 0;
         toolSelected = TOOL_DRILL;
         toolStatus = TOOL_RETRACTED;
-        toolLocked = false;
-        hasCargo = false;
+
+        terrainController = GameObject.Find("Terrain").GetComponent<TerrainController>();
 
     }
     
     // Update is called once per frame
-    void Update () {
+    void Update () { // TODO refactor
 
-        if(!toolLocked){
-			if(Input.GetKey(KeyCode.Alpha1) && toolSelected != TOOL_DRILL){
-                toolStatus = TOOL_SWITCHING_TO_DRILL;
-			} else if(Input.GetKey(KeyCode.Alpha2) && toolSelected != TOOL_CLAW){
-                toolStatus = TOOL_SWITCHING_TO_CLAW;
-            }
+   //      if(!toolLocked){
+			// if(Input.GetKey(KeyCode.Alpha1) && toolSelected != TOOL_DRILL){
+   //              toolStatus = TOOL_SWITCHING_TO_DRILL;
+			// } else if(Input.GetKey(KeyCode.Alpha2) && toolSelected != TOOL_CLAW){
+   //              toolStatus = TOOL_SWITCHING_TO_CLAW;
+   //          }
 
-            if(Input.GetKey(KeyCode.LeftShift) && (toolStatus != TOOL_SWITCHING_TO_DRILL) && (toolStatus != TOOL_SWITCHING_TO_CLAW)){
-                toolStatus = TOOL_DEPLOYED;
-            } else if((toolStatus != TOOL_SWITCHING_TO_DRILL) && (toolStatus != TOOL_SWITCHING_TO_CLAW)){
-                toolStatus = TOOL_RETRACTED;
-            }
+   //          if(Input.GetKey(KeyCode.LeftShift) && (toolStatus != TOOL_SWITCHING_TO_DRILL) && (toolStatus != TOOL_SWITCHING_TO_CLAW)){
+   //              toolStatus = TOOL_DEPLOYED;
+   //          } else if((toolStatus != TOOL_SWITCHING_TO_DRILL) && (toolStatus != TOOL_SWITCHING_TO_CLAW)){
+   //              toolStatus = TOOL_RETRACTED;
+   //          }
 
-        }
+   //      }
 
         float deployAmount = Time.deltaTime * TOOL_DEPLOY_SPEED;
+
+        if(!terrainController.hasLanded()){ // if we're not landed, retract the tool
+            toolStatus = TOOL_RETRACTED;
+        } else if(Input.GetKey(KeyCode.LeftShift)){
+            toolStatus = TOOL_DEPLOYED;
+        } else {
+            toolStatus = TOOL_RETRACTED;
+        }
 
         switch(toolStatus){
             case TOOL_RETRACTED:

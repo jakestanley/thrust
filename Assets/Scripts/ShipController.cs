@@ -20,6 +20,10 @@ public class ShipController : MonoBehaviour {
     public GameObject clawObject;
     public GameObject drillObject; // TODO get these
 
+    public TerrainController terrainController;
+
+    public ArrayList legs;
+
     // TODO tidy up this messy ass shit
 
 	// Use this for initialization
@@ -37,16 +41,29 @@ public class ShipController : MonoBehaviour {
         fuel    = MAX_FUEL;
         battery = MAX_BATTERY;
         hull    = MAX_HULL;
+
+        
+
+        legs = new ArrayList();
+        foreach (Transform child in gameObject.transform.Find("Legs")) {
+            if (child.tag == "Leg"){
+                legs.Add(child.gameObject);
+            }
+        }
+
+        Debug.Log("legs count: " + legs.Count);
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        Vector3 newForce = upwardForce.relativeForce;
+        Vector3 newRelativeForce = upwardForce.relativeForce;
+        Vector3 newGlobalForce = upwardForce.force;
 
         // zero forces to begin with
-        newForce.x = 0;
-        newForce.z = 0;
+        newRelativeForce.x = 0;
+        newRelativeForce.z = 0;
 
         float consumedFuel = 0;
         float lateralFuelConsumption = LATERAL_FORCE * CONSUMPTION_SCALE;
@@ -54,7 +71,7 @@ public class ShipController : MonoBehaviour {
 
         // set forces if keys are down
         if(Input.GetKey(KeyCode.W) && (fuel > lateralFuelConsumption)){
-            newForce.x = newForce.x + LATERAL_FORCE;                
+            newRelativeForce.x = newRelativeForce.x + LATERAL_FORCE;                
             consumedFuel += lateralFuelConsumption;
             southThruster.engage();
         } else {
@@ -62,7 +79,7 @@ public class ShipController : MonoBehaviour {
         }
 
         if(Input.GetKey(KeyCode.S) && (fuel > lateralFuelConsumption)){
-            newForce.x = newForce.x - LATERAL_FORCE;
+            newRelativeForce.x = newRelativeForce.x - LATERAL_FORCE;
             consumedFuel += lateralFuelConsumption;
             northThruster.engage();
         } else {
@@ -70,7 +87,7 @@ public class ShipController : MonoBehaviour {
         }
 
         if(Input.GetKey(KeyCode.A) && (fuel > lateralFuelConsumption)){
-            newForce.z = newForce.z + LATERAL_FORCE;
+            newRelativeForce.z = newRelativeForce.z + LATERAL_FORCE;
             consumedFuel += lateralFuelConsumption;
             eastThruster.engage();
         } else {
@@ -78,7 +95,7 @@ public class ShipController : MonoBehaviour {
         }
 
         if(Input.GetKey(KeyCode.D) && (fuel > lateralFuelConsumption)){
-            newForce.z = newForce.z - LATERAL_FORCE;
+            newRelativeForce.z = newRelativeForce.z - LATERAL_FORCE;
             consumedFuel += lateralFuelConsumption;
             westThruster.engage();
         } else {
@@ -86,15 +103,16 @@ public class ShipController : MonoBehaviour {
         }
 
         if (Input.GetKey(KeyCode.Space) && (fuel > upwardFuelConsumption)){
-            newForce.y = UPWARD_FORCE;
+            newGlobalForce.y = UPWARD_FORCE;
             consumedFuel += upwardFuelConsumption;
             thrusters.engage();
         } else {
-            newForce.y = 0;
+            newGlobalForce.y = 0;
             thrusters.disengage();
         }
 
-        upwardForce.relativeForce = newForce;
+        upwardForce.relativeForce = newRelativeForce;
+        upwardForce.force = newGlobalForce;
 
         if(!debug){
             fuel -= consumedFuel;
@@ -102,7 +120,13 @@ public class ShipController : MonoBehaviour {
 
 	}
 
-
+    public bool hasLanded(){
+        int contacts = 0;
+        foreach(GameObject leg in legs){
+            // if(leg.collider.)
+        }
+        return (contacts > 2);
+    }
 
     public const float MAX_FUEL     = 100f;
     public const float MAX_BATTERY  = 100f;

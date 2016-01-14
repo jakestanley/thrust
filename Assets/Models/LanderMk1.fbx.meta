@@ -29,6 +29,8 @@ ModelImporter:
     100042: RcsThruster3
     100044: RcsThruster4
     100046: UpperDome
+    100048: ServiceHatch
+    100050: ServiceInnards
     400000: Claw
     400002: Cube
     400004: Cube.001
@@ -53,6 +55,8 @@ ModelImporter:
     400042: RcsThruster3
     400044: RcsThruster4
     400046: UpperDome
+    400048: ServiceHatch
+    400050: ServiceInnards
     2300000: Claw
     2300002: Cube
     2300004: Cube.001
@@ -76,6 +80,8 @@ ModelImporter:
     2300040: RcsThruster3
     2300042: RcsThruster4
     2300044: UpperDome
+    2300046: ServiceHatch
+    2300048: ServiceInnards
     3300000: Claw
     3300002: Cube
     3300004: Cube.001
@@ -99,6 +105,8 @@ ModelImporter:
     3300040: RcsThruster3
     3300042: RcsThruster4
     3300044: UpperDome
+    3300046: ServiceHatch
+    3300048: ServiceInnards
     4300000: Cube
     4300002: Drill
     4300004: EquipmentDoorLeft
@@ -122,6 +130,8 @@ ModelImporter:
     4300040: Door
     4300042: UpperDome
     4300044: Legs
+    4300046: ServiceInnards
+    4300048: ServiceHatch
   materials:
     importMaterials: 1
     materialName: 0
